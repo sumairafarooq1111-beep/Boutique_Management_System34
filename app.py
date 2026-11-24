@@ -176,6 +176,13 @@ def add_order():
     flash('Order placed successfully!', 'success')
     return redirect(url_for('orders'))
 
+@app.route('/orders/delete/<int:oid>')
+@login_required
+def delete_order(oid):
+    execute_query("DELETE FROM orders WHERE order_id=%s", (oid,))
+    flash('Order deleted successfully', 'info')
+    return redirect(url_for('orders'))
+
 @app.route('/orders/status/<int:oid>/<status>')
 @login_required
 def update_order_status(oid, status):
@@ -218,6 +225,13 @@ def add_tailoring():
 def update_tailoring_status(tid, status):
     execute_query("UPDATE tailoring_orders SET status=%s WHERE tailoring_id=%s", (status, tid))
     flash('Tailoring status updated', 'success')
+    return redirect(url_for('tailoring'))
+
+@app.route('/tailoring/delete/<int:tid>')
+@login_required
+def delete_tailoring(tid):
+    execute_query("DELETE FROM tailoring_orders WHERE tailoring_id=%s", (tid,))
+    flash('Tailoring order deleted', 'info')
     return redirect(url_for('tailoring'))
 
 # --- CHATBOT ROUTE ---
