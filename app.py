@@ -229,7 +229,7 @@ def chat():
     
     try:
         completion = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="openai/gpt-oss-120b",  # Use the appropriate model name
             messages=[
                 {"role": "system", "content": "You are a helpful customer support assistant for a Boutique Management System. Keep your answers short and polite."},
                 {"role": "user", "content": user_message}
