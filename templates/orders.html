@@ -27,6 +27,7 @@
                         <a href="/orders/status/{{ o.order_id }}/Ready" class="btn btn-sm btn-info">Ready</a>
                         <a href="/orders/status/{{ o.order_id }}/Delivered" class="btn btn-sm btn-success">✓</a>
                         <a href="/orders/status/{{ o.order_id }}/Cancelled" class="btn btn-sm btn-danger">✗</a>
+                        <a href="/orders/delete/{{ o.order_id }}" class="btn btn-sm btn-dark" onclick="return confirm('Delete this order?')">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}
