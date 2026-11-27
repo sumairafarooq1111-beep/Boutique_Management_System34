@@ -141,7 +141,9 @@ def delete_product(pid):
 def orders():
     ords = execute_query("""
         SELECT o.*, c.full_name AS customer_name, c.phone
-        FROM orders o JOIN customers c ON o.customer_id = c.customer_id ORDER BY o.order_id DESC
+        FROM orders o JOIN customers c ON o.customer_id = c.customer_id
+         WHERE o.is_deleted IS NOT TRUE
+          ORDER BY o.order_id DESC
     """, fetch=True)
     customers_list = execute_query("SELECT customer_id, full_name FROM customers ORDER BY full_name", fetch=True)
     products_list = execute_query("SELECT product_id, product_name, price FROM products WHERE stock_quantity > 0 ORDER BY product_name", fetch=True)
@@ -197,7 +199,9 @@ def tailoring():
         SELECT t.*, c.full_name AS customer_name, c.phone, e.full_name AS tailor_name
         FROM tailoring_orders t
         JOIN customers c ON t.customer_id = c.customer_id
-        LEFT JOIN employees e ON t.assigned_tailor = e.employee_id ORDER BY t.tailoring_id DESC
+        LEFT JOIN employees e ON t.assigned_tailor = e.employee_id
+         WHERE t.is_deleted IS NOT TRUE
+          ORDER BY t.tailoring_id DESC
     """, fetch=True)
     customers_list = execute_query("SELECT customer_id, full_name FROM customers ORDER BY full_name", fetch=True)
     tailors = execute_query("SELECT employee_id, full_name FROM employees WHERE is_active=TRUE ORDER BY full_name", fetch=True)
