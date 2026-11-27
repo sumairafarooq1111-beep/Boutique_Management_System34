@@ -179,8 +179,8 @@ def add_order():
 @app.route('/orders/delete/<int:oid>')
 @login_required
 def delete_order(oid):
-    execute_query("DELETE FROM orders WHERE order_id=%s", (oid,))
-    flash('Order deleted successfully', 'info')
+    execute_query("UPDATE orders SET is_deleted = TRUE WHERE order_id=%s", (oid,))
+    flash('Order moved to history', 'info')
     return redirect(url_for('orders'))
 
 @app.route('/orders/status/<int:oid>/<status>')
