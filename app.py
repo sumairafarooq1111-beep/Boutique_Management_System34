@@ -234,6 +234,27 @@ def delete_tailoring(tid):
     flash('Tailoring order deleted', 'info')
     return redirect(url_for('tailoring'))
 
+@app.route('/history')
+@login_required
+def history():
+    # Get all past orders (sorted by newest first)
+    past_orders = execute_query("""
+        SELECT o.order_id, c.full_name AS customer_name, o.final_amount, o.status, o.order_date
+        FROM orders o 
+        JOIN customers c ON o.customer_id = c.customer_id 
+        ORDER BY o.order_date DESC
+    """, fetch=True)
+
+    # Get all past tailoring orders
+    past_tailoring = execute_query("""
+        SELECT t.tailoring_id, c.full_name AS customer_name, t.dress_type, t.total_price, t.status, t.order_date
+        FROM tailoring_orders t 
+        JOIN customers c ON t.customer_id = c.customer_id 
+        ORDER BY t.order_date DESC
+    """, fetch=True)
+
+    return render_template('history.html', past_orders=past_orders, past_tailoring=past_tailoring)
+
 # --- CHATBOT ROUTE ---
 @app.route('/api/chat', methods=['POST'])
 def chat():
