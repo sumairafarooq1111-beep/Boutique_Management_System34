@@ -230,8 +230,8 @@ def update_tailoring_status(tid, status):
 @app.route('/tailoring/delete/<int:tid>')
 @login_required
 def delete_tailoring(tid):
-    execute_query("DELETE FROM tailoring_orders WHERE tailoring_id=%s", (tid,))
-    flash('Tailoring order deleted', 'info')
+    execute_query("UPDATE tailoring_orders SET is_deleted = TRUE WHERE tailoring_id=%s", (tid,))
+    flash('Tailoring order moved to history', 'info')
     return redirect(url_for('tailoring'))
 
 @app.route('/history')
