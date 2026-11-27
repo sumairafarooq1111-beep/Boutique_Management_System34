@@ -211,17 +211,17 @@ def tailoring():
 @app.route('/tailoring/add', methods=['POST'])
 @login_required
 def add_tailoring():
-    execute_query("""
-        INSERT INTO tailoring_orders
-            (customer_id, dress_type, fabric_provided, measurements, design_notes,
-             total_price, advance_paid, delivery_date, assigned_tailor)
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
-    """, (
-        request.form['customer_id'], request.form['dress_type'], request.form.get('fabric_provided'),
-        request.form.get('measurements'), request.form.get('design_notes'), request.form['total_price'],
-        request.form.get('advance_paid') or 0, request.form.get('delivery_date') or None,
-        request.form.get('assigned_tailor') or None,
-    ))
+ execute_query("""
+    INSERT INTO tailoring_orders
+        (customer_id, dress_type, fabric_provided, measurements, design_notes,
+         total_price, advance_paid, delivery_date, assigned_tailor, is_deleted)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, FALSE)
+""", (
+    request.form['customer_id'], request.form['dress_type'], request.form.get('fabric_provided'),
+    request.form.get('measurements'), request.form.get('design_notes'), request.form['total_price'],
+    request.form.get('advance_paid') or 0, request.form.get('delivery_date') or None,
+    request.form.get('assigned_tailor') or None,
+))
     flash('Tailoring order created!', 'success')
     return redirect(url_for('tailoring'))
 
