@@ -165,16 +165,17 @@ def add_order():
     subtotal = unit_price * quantity
 
     order = execute_one("""
-        INSERT INTO orders (customer_id, user_id, delivery_date, total_amount, final_amount, status)
-        VALUES (%s,%s,%s,%s,%s,'Pending') RETURNING order_id
+        INSERT INTO orders (customer_id, user_id, delivery_date, total_amount, final_amount, status, is_deleted)
+        VALUES (%s, %s, %s, %s, %s, 'Pending', FALSE) RETURNING order_id
     """, (customer_id, session['user_id'], request.form.get('delivery_date') or None, subtotal, subtotal))
 
     execute_query("""
         INSERT INTO order_items (order_id, product_id, quantity, unit_price, subtotal)
-        VALUES (%s,%s,%s,%s,%s)
+        VALUES (%s, %s, %s, %s, %s)
     """, (order['order_id'], product_id, quantity, unit_price, subtotal))
 
     execute_query("UPDATE products SET stock_quantity = stock_quantity - %s WHERE product_id=%s", (quantity, product_id))
+    
     flash('Order placed successfully!', 'success')
     return redirect(url_for('orders'))
 
