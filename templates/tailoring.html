@@ -5,6 +5,19 @@
     <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addModal">+ New Tailoring</button>
 </div>
 
+<!-- Add Tailor Form -->
+<div class="card mb-4">
+    <div class="card-header bg-dark text-white">Add New Tailor / Employee</div>
+    <div class="card-body">
+        <form method="POST" action="/employees/add" class="row g-3">
+            <div class="col-md-4"><input type="text" name="full_name" class="form-control" placeholder="Tailor Name" required></div>
+            <div class="col-md-3"><input type="text" name="role" class="form-control" placeholder="Role (e.g., Master Tailor)"></div>
+            <div class="col-md-3"><input type="text" name="phone" class="form-control" placeholder="Phone Number"></div>
+            <div class="col-md-2"><button type="submit" class="btn btn-dark w-100">Add Tailor</button></div>
+        </form>
+    </div>
+</div>
+
 <div class="card">
     <div class="table-responsive">
         <table class="table table-bordered table-hover mb-0">
